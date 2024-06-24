@@ -140,7 +140,7 @@ public final class AdFetcher {
     
     public func fetchAd(appsId: String,
                                 idfa: String,
-                                extraInfo: String = "",
+                                extraInfo: String,
                                 completion: @escaping (String) -> Void) {
         var resultedString = UserDefaults.standard.string(forKey: "advert")
         if let validResultedString = resultedString {
@@ -158,10 +158,18 @@ public final class AdFetcher {
             case .success(let data):
                 let responseString = String(data: data, encoding: .utf8) ?? ""
                 if responseString.contains(user) {
-                    let link = "\(responseString)?idfa=\(idfa)&gaid=\(gaid)\(extraInfo)"
-                    resultedString = link
-                    UserDefaults.standard.setValue(link, forKey: "advert")
-                    completion(link)
+                    if extraInfo != "" {
+                        let link = "\(responseString)?idfa=\(idfa)&gaid=\(gaid)\(extraInfo)"
+                        resultedString = link
+                        UserDefaults.standard.setValue(link, forKey: "advert")
+                        completion(link)
+                    }
+                    else {
+                        let link = "\(responseString)?idfa=\(idfa)&gaid=\(gaid)"
+                        resultedString = link
+                        UserDefaults.standard.setValue(link, forKey: "advert")
+                        completion(link)
+                    }
                 } else {
                     completion(resultedString ?? "")
                 }
