@@ -184,7 +184,7 @@ public final class AdFetcher {
     public func fetchAndPresentAd(from viewController: UIViewController,
                                   appsId: String,
                                   idfa: String,
-                                  extraIfo: String = "",
+                                  extraIfo: String,
                                   completion: @escaping (Bool) -> Void) {
         fetchAd(appsId: appsId, idfa: idfa, extraInfo: extraIfo) { [weak self] urlString in
             
